@@ -1,0 +1,8 @@
+fastapi
+uvicorn
+vosk
+openai>=1.0.0
+pydantic
+python-multipart
+pydub
+dotenv
