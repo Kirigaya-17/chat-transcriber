@@ -67,9 +67,9 @@ const AudioRecorder: React.FC = () => {
     }
   };
 
+
   return (
     <div style={{ padding: "1rem", fontFamily: "sans-serif" }}>
-      <h2>🎙️ Gravação de Áudio</h2>
 
       <button onClick={recording ? stopRecording : startRecording}>
         {recording ? "⏹️ Parar Gravação" : "▶️ Iniciar Gravação"}
@@ -88,6 +88,7 @@ const AudioRecorder: React.FC = () => {
         </div>
       )}
     </div>
+
   );
 };
 

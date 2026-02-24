@@ -5,7 +5,7 @@ function App() {
 
   return (
     <div>
-      <h1 style={{ textAlign: "center" }}>ChatGPT + Vosk Transcriber</h1>
+      <h1 style={{ textAlign: "center" }}>Professor Estagiario</h1>
       <AudioRecorder />
     </div>
   )

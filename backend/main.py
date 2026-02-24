@@ -1,5 +1,6 @@
 from fastapi import FastAPI, UploadFile, Form
 from fastapi.middleware.cors import CORSMiddleware
+from noisereduce import reduce_noise
 from vosk import Model, KaldiRecognizer
 from pydub import AudioSegment
 from openai import OpenAI
@@ -8,12 +9,11 @@ import wave
 import tempfile
 import os
 import subprocess
-from dotenv import load_dotenv
+import noisereduce as nr
 
 # --- Inicialização do app ---
 app = FastAPI()
-load_dotenv()  # carrega variáveis do .env
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+client = OpenAI(api_key=())
 
 # --- CORS para permitir o frontend ---
 app.add_middleware(
@@ -59,6 +59,8 @@ def convert_to_wav(input_path: str, output_path: str):
 async def transcribe_audio(file: UploadFile, format_text: bool = Form(True)):
     input_path = "temp_input.webm"
     output_path = "temp.wav"
+    audio = AudioSegment.from_wav("temp.wav")
+    arrayAudio = audio.get_array_of_samples()
 
     # Salva o arquivo temporariamente
     with open(input_path, "wb") as f:
@@ -66,6 +68,9 @@ async def transcribe_audio(file: UploadFile, format_text: bool = Form(True)):
 
     # Converte para WAV PCM 16kHz mono
     convert_to_wav(input_path, output_path)
+
+    # Reduz o ruido do audio
+    input_path = nr.reduce_noise(y=arrayAudio, sr=16000)
 
     # Processa o áudio com Vosk
     wf = wave.open(output_path, "rb")
