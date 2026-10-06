@@ -9,11 +9,14 @@ import wave
 import tempfile
 import os
 import subprocess
+from dotenv import load_dotenv
 import noisereduce as nr
 
 # --- Inicialização do app ---
 app = FastAPI()
-client = OpenAI(api_key=())
+load_dotenv() #carrega variáveis do .env
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+
 
 # --- CORS para permitir o frontend ---
 app.add_middleware(
@@ -25,18 +28,18 @@ app.add_middleware(
 )
 
 # --- Carregar modelo Vosk ---
-MODEL_PATH = "vosk-model-small-pt-0.3"
+MODEL_PATH = "model"
 if not os.path.exists(MODEL_PATH):
     raise RuntimeError(
-        "Modelo Vosk não encontrado. Baixe e extraia antes de iniciar o servidor.")
+         "Modelo Vosk não encontrado. Baixe e extraia antes de iniciar o servidor.")
 model = Model(MODEL_PATH)
 
 
 def convert_to_wav(input_path: str, output_path: str):
-    """
-    Converte qualquer arquivo de áudio (WebM, OGG, etc.)
-    para WAV PCM 16kHz mono, usando ffmpeg.
-    """
+    # """
+    # Converte qualquer arquivo de áudio (WebM, OGG, etc.)
+    # para WAV PCM 16kHz mono, usando ffmpeg.
+    # """
     cmd = [
         "ffmpeg",
         "-y",          # sobrescreve se já existir

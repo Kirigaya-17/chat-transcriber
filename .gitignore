@@ -177,6 +177,12 @@ dist-ssr
 *.sln
 *.sw?
 
-vosk-model-small-pt-0.3
+
 
 *.zip
+
+
+# pacote Vosk
+model
+vosk-model-small-pt-0.3
+testes.py
